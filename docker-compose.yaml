@@ -1,0 +1,39 @@
+services:
+    mongo:
+        container_name: webeng-mongo
+        image: mongo:5.0.5
+        ports:
+            - 27017:27017
+        environment:
+          - MONGO_INITDB_DATABASE=properties
+        volumes:
+            - "./database/properties_cleaned.json:/docker-entrypoint-initdb.d/properties_cleaned.json"
+            - ./database/init.sh:/docker-entrypoint-initdb.d/init.sh
+            - $HOME/Desktop/storage:/data/db
+        restart: always
+    
+    api:
+        container_name: webeng-api
+        build:
+            context: api
+            dockerfile: Dockerfile.api
+        ports:
+            - 8000:8000
+        volumes:
+            - ./api/:/app
+        depends_on:
+          - mongo
+
+    web:
+        container_name: webeng-web
+        build:
+            context: frontend
+            dockerfile: Dockerfile.web
+        ports:
+            - 3000:3000
+        volumes:
+            - ./frontend/:/app
+        depends_on:
+          - api
+
+                

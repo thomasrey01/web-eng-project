@@ -1,0 +1,82 @@
+.App {
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+    background-position: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+  color: white;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://wallpaperaccess.com/full/1495100.jpg");
+}
+
+.AddProperty {
+  text-align: center;
+  color: white;
+}
+
+#results img {
+  width: 30%;
+}
+
+.Property {
+  text-align: center;
+}
+
+.Property img {
+  width: 30%;
+}
+
+img {
+  border-radius: 8px;
+  width: 100%;
+  height: auto;
+  margin: 10px 10px 0;
+}
+
+.results {
+  margin: 10px 10px 0;
+  width: 30%;
+  height: auto;
+  display: inline-block;
+}
+
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+input {
+  display: block;
+  border-radius: 20px;
+  text-align: center;
+}
+
+select {
+  border-radius: 20px;
+}
+
+.cluster-marker {
+  color: #fff;
+  background: #1978c8;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.crime-marker {
+  background: none;
+  border: none;
+}
+
+.crime-marker img {
+  width: 25px;
+}
+#mapDiv {
+  background-color: #1978c8;
+}
+

@@ -1,0 +1,404 @@
+openapi: 3.0.2
+info:
+  title: FastAPI
+  version: 0.1.0
+paths:
+  /api/search:
+    get:
+      summary: Search endpoint
+      description: |-
+        Search for a property in the database. You can also match regular expressions for certain fields. Expression flags are not supported
+
+        The following fields are supported with an example:
+
+        - **city**: Amsterdam|Groningen (find all properties where city matches Amsterdam or Groningen)
+        - **postalCode**: 1234[A-Z]{2} (find all properties where postalCode starts with 1234 and ends with any two capital letters)
+        - **location**: 53.22\d+-6.56\d+ (find all properties where location is in range lat 53.22 to 53.23 and long 6.56 to 6.57)
+        - **propertyType**: Room|Apartment (find all properties where propertyType is either room or apartment)
+      operationId: search_api_search_get
+      parameters:
+        - required: false
+          schema:
+            title: City
+            type: string
+          name: city
+          in: query
+        - required: false
+          schema:
+            title: Postalcode
+            type: string
+          name: postalCode
+          in: query
+        - required: false
+          schema:
+            title: Propertytype
+            type: string
+          name: propertyType
+          in: query
+        - required: false
+          schema:
+            title: Location
+            pattern: .+-.+
+            type: string
+          name: location
+          in: query
+        - required: false
+          schema:
+            title: Size
+            pattern: ^\d+-\d+$
+            type: string
+          name: size
+          in: query
+        - required: false
+          schema:
+            title: Rent
+            pattern: ^\d+-\d+$
+            type: string
+          name: rent
+          in: query
+        - required: false
+          schema:
+            title: Sortby
+            type: string
+            default: externalId
+          name: sortBy
+          in: query
+        - required: false
+          schema:
+            title: Isascending
+            type: boolean
+            default: true
+          name: isAscending
+          in: query
+        - required: false
+          schema:
+            title: Allowdiskuse
+            type: boolean
+            default: false
+          name: allowDiskUse
+          in: query
+        - required: false
+          schema:
+            title: Accept
+            type: string
+            default: application/json
+          name: accept
+          in: header
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/csv:
+              example: |-
+                a,b,c
+                1,2,3
+        "400":
+          description: Bad request
+        "504":
+          description: Gateway timeout
+        "507":
+          description: Insufficient storage
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/property/id/{property_id}:
+    get:
+      summary: Get property by id
+      description: |-
+        This method returns a JSON or CSV response of a property based on the header parsed and the
+        property id.
+      operationId: get_property_by_id_api_property_id__property_id__get
+      parameters:
+        - required: true
+          schema:
+            title: Property Id
+            type: string
+          name: property_id
+          in: path
+        - required: false
+          schema:
+            title: Accept
+            type: string
+            default: application/json
+          name: accept
+          in: header
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/csv:
+              example: |-
+                a,b,c
+                1,2,3
+        "404":
+          description: Not found
+        "504":
+          description: Gateway timeout
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      summary: Update property by id.
+      description: Updates a property in the database from the request.
+      operationId: update_property_by_id_api_property_id__property_id__put
+      parameters:
+        - required: true
+          schema:
+            title: Property Id
+            type: string
+          name: property_id
+          in: path
+        - required: false
+          schema:
+            title: Content-Type
+            type: string
+            default: application/json
+          name: Content-Type
+          in: header
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/csv:
+              example: |-
+                a,b,c
+                1,2,3
+        "404":
+          description: Not found
+        "504":
+          description: Gateway timeout
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Add property by id
+      description: This method adds a property to the database from the id parsed and the request.
+      operationId: add_property_by_id_api_property_id__property_id__post
+      parameters:
+        - required: true
+          schema:
+            title: Property Id
+            type: string
+          name: property_id
+          in: path
+        - required: false
+          schema:
+            title: Content-Type
+            type: string
+            default: application/json
+          name: Content-Type
+          in: header
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/csv:
+              example: |-
+                a,b,c
+                1,2,3
+        "201":
+          description: Created
+        "400":
+          description: Bad request
+        "409":
+          description: ID conflict
+        "504":
+          description: Gateway timeout
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Deletes a property from id.
+      description: This method deletes a property given a property id.
+      operationId: delete_property_api_property_id__property_id__delete
+      parameters:
+        - required: true
+          schema:
+            title: Property Id
+            type: string
+          name: property_id
+          in: path
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/csv:
+              example: |-
+                a,b,c
+                1,2,3
+        "404":
+          description: Not found
+        "504":
+          description: Gateway timeout
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/property/coords/{longitude}+{latitude}:
+    put:
+      summary: Updates properties by coordinates.
+      description: This method updates the properties from the given coordinates.
+      operationId: update_property_by_coords_api_property_coords__longitude___latitude__put
+      parameters:
+        - required: true
+          schema:
+            title: Longitude
+            type: string
+          name: longitude
+          in: path
+        - required: true
+          schema:
+            title: Latitude
+            type: string
+          name: latitude
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Query
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/csv:
+              example: |-
+                a,b,c
+                1,2,3
+        "404":
+          description: Not found
+        "504":
+          description: Gateway timeout
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Deletes properties from coordinates.
+      description: Deletes the properties from the given coordinates.
+      operationId: delete_house_by_coords_api_property_coords__longitude___latitude__delete
+      parameters:
+        - required: true
+          schema:
+            title: Longitude
+            type: string
+          name: longitude
+          in: path
+        - required: true
+          schema:
+            title: Latitude
+            type: string
+          name: latitude
+          in: path
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/csv:
+              example: |-
+                a,b,c
+                1,2,3
+        "404":
+          description: Not found
+        "504":
+          description: Gateway timeout
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/city/{city}/statistics:
+    get:
+      summary: Get statistics on a city.
+      description: Gives the statistics of athe given city.
+      operationId: get_properties_stats_api_city__city__statistics_get
+      parameters:
+        - required: true
+          schema:
+            title: City
+            type: string
+          name: city
+          in: path
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/csv:
+              example: |-
+                a,b,c
+                1,2,3
+        "404":
+          description: Not found
+        "504":
+          description: Gateway timeout
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
